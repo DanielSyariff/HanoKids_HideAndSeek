@@ -9,7 +9,9 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private float timeLimit = 0;                       
     [SerializeField] private int maxHiddenObjectToFound = 6;            
-    [SerializeField] private ObjectHolder objectHolderPrefab;           
+    [SerializeField] private int coins;
+    [SerializeField] private int score;
+    [SerializeField] private ObjectHolder[] objectHolderPrefab;           
 
     [HideInInspector] public GameStatus gameStatus = GameStatus.NEXT;   
     private List<HiddenObjectData> activeHiddenObjectList;              
@@ -39,7 +41,8 @@ public class LevelManager : MonoBehaviour
 
     void AssignHiddenObjects()  
     {
-        ObjectHolder objectHolder = Instantiate(objectHolderPrefab, Vector3.zero, Quaternion.identity);
+        int random = UnityEngine.Random.Range(0, objectHolderPrefab.Length);
+        ObjectHolder objectHolder = Instantiate(objectHolderPrefab[random]);
         totalHiddenObjectsFound = 0;                                        
         activeHiddenObjectList.Clear();                                     
         gameStatus = GameStatus.PLAYING;                                    
@@ -91,6 +94,9 @@ public class LevelManager : MonoBehaviour
                     {
                         if (activeHiddenObjectList[i].hiddenObj.name == hit.collider.gameObject.name)
                         {
+                            score++;
+                            CoinManager.Instance.AddCoins(1);
+                            GameplayUIManager.instance.UpdateCoin();
                             activeHiddenObjectList.RemoveAt(i);
                             break;
                         }
@@ -100,8 +106,8 @@ public class LevelManager : MonoBehaviour
 
                     if (totalHiddenObjectsFound >= maxHiddenObjectToFound)
                     {
-                        Debug.Log("You won the game");                      
-                        GameplayUIManager.instance.GameCompleteObj.SetActive(true); 
+                        Debug.Log("You won the game");
+                        GameplayUIManager.instance.GameComplete(score); 
                         gameStatus = GameStatus.NEXT;                       
                     }
                 }
@@ -113,8 +119,8 @@ public class LevelManager : MonoBehaviour
             GameplayUIManager.instance.TimerText.text = time.ToString("mm':'ss");   
             if (currentTime <= 0)                                           
             {
-                Debug.Log("Time Up");                                      
-                GameplayUIManager.instance.GameCompleteObj.SetActive(true);         
+                Debug.Log("Time Up");
+                GameplayUIManager.instance.GameComplete(score);
                 gameStatus = GameStatus.NEXT;                              
             }
         }

@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using DG.Tweening;
+using System.Collections;
 
 public class GameplayUIManager : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private GameObject hiddenObjectIconPrefab;     
     [SerializeField] private GameObject gameCompleteObj;            
     [SerializeField] private TextMeshProUGUI timerText;                        
+    [SerializeField] private TextMeshProUGUI coin;
+    [SerializeField] private GameObject[] star;
 
     private List<GameObject> hiddenObjectIconList;                  
 
@@ -30,6 +34,14 @@ public class GameplayUIManager : MonoBehaviour
         }
 
         hiddenObjectIconList = new List<GameObject>();              
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            BackToMainMenu();
+        }
     }
 
     /// <param name="hiddenObjectData">Data of active hidden objects</param>
@@ -62,6 +74,51 @@ public class GameplayUIManager : MonoBehaviour
         }
     }
 
+    public void GameComplete(int score)
+    {
+        GameCompleteObj.SetActive(true);
+        StartCoroutine(AnimateStar(score));
+
+        MainMenuManager.Instance.UpdateSelected(score > 4 ? 3 : score);
+        
+    }
+    IEnumerator AnimateStar(int score)
+    {
+        if (score > 4)
+        {
+            for (int i = 0; i < star.Length; i++)
+            {
+                star[i].transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+        else if (score == 2)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                star[i].transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+        else if (score == 1)
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                star[i].transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+        else
+        {
+            yield return 0;
+        }
+    }
+
+    public void UpdateCoin()
+    {
+        coin.text = "Coins : " + CoinManager.Instance.GetCoin();
+    }
+
     public void NextButton()                                                   
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);       
@@ -70,5 +127,10 @@ public class GameplayUIManager : MonoBehaviour
     public void HintButton()
     {
         StartCoroutine(LevelManager.instance.HintObject());
+    }
+    public void BackToMainMenu()
+    {
+        PlayerPrefs.SetInt("FromGameplay", 1);
+        SceneManager.LoadScene("MainMenu");
     }
 }
