@@ -16,6 +16,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;                        
     [SerializeField] private TextMeshProUGUI coin;
     [SerializeField] private GameObject[] star;
+    public AudioClip starSound;
 
     private List<GameObject> hiddenObjectIconList;                  
 
@@ -89,6 +90,7 @@ public class GameplayUIManager : MonoBehaviour
             for (int i = 0; i < star.Length; i++)
             {
                 star[i].transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+                AudioManager.instance.PlayOneShot(starSound);
                 yield return new WaitForSeconds(0.5f);
             }
         }
@@ -97,6 +99,7 @@ public class GameplayUIManager : MonoBehaviour
             for (int i = 0; i < 2; i++)
             {
                 star[i].transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+                AudioManager.instance.PlayOneShot(starSound);
                 yield return new WaitForSeconds(0.5f);
             }
         }
@@ -105,6 +108,7 @@ public class GameplayUIManager : MonoBehaviour
             for (int i = 0; i < 1; i++)
             {
                 star[i].transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+                AudioManager.instance.PlayOneShot(starSound);
                 yield return new WaitForSeconds(0.5f);
             }
         }

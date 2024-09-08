@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 [System.Serializable]
 public class StageData
@@ -66,6 +67,8 @@ public class MainMenuManager : MonoBehaviour
         }
 
         InstantiateStageData();
+
+        EnableCP();
     }
 
     void InitializeStageData()
@@ -168,6 +171,13 @@ public class MainMenuManager : MonoBehaviour
     bool HasNextIndex(int index)
     {
         return index + 1 < stageData.Count;
+    }
+    #endregion
+    #region Copyright
+    [SerializeField] private GameObject cp;
+    public void EnableCP()
+    {
+        cp.SetActive(true);
     }
     #endregion
 }

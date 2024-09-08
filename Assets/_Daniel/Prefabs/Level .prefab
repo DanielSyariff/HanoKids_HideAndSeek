@@ -433,6 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageData:
+    index: 0
     starCompletion: 0
     stageStatus: 0
   titleText: {fileID: 8258591137103180522}
@@ -738,6 +739,7 @@ GameObject:
   - component: {fileID: 7066207622831641173}
   - component: {fileID: 5596342831144614379}
   - component: {fileID: 1760076108901820807}
+  - component: {fileID: 627107004618200699}
   m_Layer: 5
   m_Name: Button - Stage Play
   m_TagString: Untagged
@@ -858,3 +860,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &627107004618200699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8124308828654595893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7348b01cb8964f45954ecfdcafffd95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonClickClip: {fileID: 8300000, guid: f6afc441d9fa41c4d925c11cdb2afdf6, type: 3}

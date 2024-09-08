@@ -6,5 +6,4 @@ using UnityEngine;
 public class LevelData : ScriptableObject
 {
     public string stageName;
-    public GameObject levelGameplay;
 }

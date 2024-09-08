@@ -11,7 +11,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int maxHiddenObjectToFound = 6;            
     [SerializeField] private int coins;
     [SerializeField] private int score;
-    [SerializeField] private ObjectHolder[] objectHolderPrefab;           
+    [SerializeField] private ObjectHolder[] objectHolderPrefab;
+    public AudioClip foundAudio;
+    public AudioClip gameClear;
 
     [HideInInspector] public GameStatus gameStatus = GameStatus.NEXT;   
     private List<HiddenObjectData> activeHiddenObjectList;              
@@ -97,6 +99,7 @@ public class LevelManager : MonoBehaviour
                             score++;
                             CoinManager.Instance.AddCoins(1);
                             GameplayUIManager.instance.UpdateCoin();
+                            AudioManager.instance.PlayOneShot(foundAudio);
                             activeHiddenObjectList.RemoveAt(i);
                             break;
                         }
@@ -107,7 +110,8 @@ public class LevelManager : MonoBehaviour
                     if (totalHiddenObjectsFound >= maxHiddenObjectToFound)
                     {
                         Debug.Log("You won the game");
-                        GameplayUIManager.instance.GameComplete(score); 
+                        GameplayUIManager.instance.GameComplete(score);
+                        AudioManager.instance.PlayOneShot(gameClear);
                         gameStatus = GameStatus.NEXT;                       
                     }
                 }
@@ -121,6 +125,7 @@ public class LevelManager : MonoBehaviour
             {
                 Debug.Log("Time Up");
                 GameplayUIManager.instance.GameComplete(score);
+                AudioManager.instance.PlayOneShot(gameClear);
                 gameStatus = GameStatus.NEXT;                              
             }
         }
